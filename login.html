@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Instagram - Share photos and connect with friends">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/y4/r/QaBlI0OZiks.ico" type="image/x-icon">
+    <style>
+        /* Login Page Specific Styles */
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--ig-bg-primary);
+        }
+
+        .login-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            gap: 32px;
+        }
+
+        /* Photo Collage Section */
+        .photo-collage {
+            position: relative;
+            width: 380px;
+            height: 380px;
+            display: none;
+        }
+
+        @media (min-width: 876px) {
+            .photo-collage {
+                display: block;
+            }
+        }
+
+        .collage-item {
+            position: absolute;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .collage-item:hover {
+            transform: scale(1.02);
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .collage-item-1 {
+            width: 180px;
+            height: 240px;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .collage-item-2 {
+            width: 160px;
+            height: 200px;
+            top: 20px;
+            left: 160px;
+            z-index: 2;
+        }
+
+        .collage-item-3 {
+            width: 180px;
+            height: 220px;
+            top: 140px;
+            left: 100px;
+            z-index: 3;
+        }
+
+        .collage-item-4 {
+            width: 120px;
+            height: 150px;
+            top: 200px;
+            left: 260px;
+            z-index: 2;
+        }
+
+        /* Emoji Reactions */
+        .emoji-reaction {
+            position: absolute;
+            display: flex;
+            gap: 4px;
+            padding: 6px 10px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .emoji-reaction span {
+            font-size: 16px;
+        }
+
+        .story-badge {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        .story-badge-green {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .story-badge-purple {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            padding: 2px;
+        }
+
+        .story-badge-purple img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        /* Login Form Section */
+        .login-section {
+            width: 350px;
+        }
+
+        .login-card {
+            background-color: var(--ig-bg-primary);
+            border: 1px solid var(--ig-border);
+            border-radius: 4px;
+            padding: 40px 40px 20px;
+            margin-bottom: 10px;
+        }
+
+        .instagram-logo {
+            font-family: 'Billabong', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 52px;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 24px;
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .instagram-logo-img {
+            display: block;
+            height: 51px;
+            margin: 0 auto 24px;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 12px 6px;
+            background-color: var(--ig-bg-secondary);
+            border: 1px solid var(--ig-border);
+            border-radius: 3px;
+            font-size: 12px;
+            color: var(--ig-text-primary);
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .login-input:focus {
+            border-color: var(--ig-border-dark);
+        }
+
+        .login-label {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+            pointer-events: none;
+            transition: all 0.15s ease;
+        }
+
+        .login-input:focus+.login-label,
+        .login-input:not(:placeholder-shown)+.login-label {
+            top: 10px;
+            font-size: 10px;
+        }
+
+        .login-input:focus,
+        .login-input:not(:placeholder-shown) {
+            padding: 18px 12px 6px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ig-text-primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px 16px;
+            margin-top: 14px;
+            background-color: var(--ig-primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease, opacity 0.15s ease;
+        }
+
+        .login-btn:hover:not(:disabled) {
+            background-color: #1877f2;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 18px 0;
+            gap: 18px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background-color: var(--ig-border);
+        }
+
+        .divider-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ig-text-secondary);
+            text-transform: uppercase;
+        }
+
+        .facebook-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px;
+            color: #385185;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+
+        .facebook-login:hover {
+            opacity: 0.7;
+        }
+
+        .facebook-login svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--ig-link);
+            cursor: pointer;
+        }
+
+        .signup-card {
+            background-color: var(--ig-bg-primary);
+            border: 1px solid var(--ig-border);
+            border-radius: 4px;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .signup-link {
+            color: var(--ig-primary-blue);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .app-download {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .app-download p {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .app-badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .app-badge {
+            height: 40px;
+        }
+
+        /* Footer */
+        .login-footer {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 16px;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .footer-links a {
+            color: var(--ig-text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+        }
+
+        .language-select {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+            cursor: pointer;
+        }
+
+        /* Error message */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Disclaimer Banner */
+        .disclaimer-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 13px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .disclaimer-banner a {
+            color: #ffd700;
+            margin-left: 8px;
+        }
+
+        .login-wrapper {
+            padding-top: 50px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <main class="login-main">
+            <!-- Photo Collage -->
+            <div class="photo-collage">
+                <div class="collage-item collage-item-1">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop"
+                        alt="Photo">
+                    <div class="emoji-reaction" style="top: 12px; left: 12px;">
+                        <span>🔥</span>
+                        <span>💜</span>
+                    </div>
+                </div>
+                <div class="collage-item collage-item-2">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop"
+                        alt="Photo">
+                    <div class="story-badge story-badge-green" style="top: -8px; right: -8px;">
+                        ⭐✓
+                    </div>
+                </div>
+                <div class="collage-item collage-item-3">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop"
+                        alt="Photo">
+                </div>
+                <div class="collage-item collage-item-4">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=500&fit=crop"
+                        alt="Photo">
+                    <div class="story-badge story-badge-purple" style="bottom: -8px; left: -8px;">
+                        <img src="https://i.pravatar.cc/100?img=5" alt="User">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="login-section">
+                <div class="login-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/800px-Instagram_logo.svg.png"
+                        alt="Instagram" class="instagram-logo-img">
+
+                    <div class="error-message" id="errorMessage"></div>
+
+                    <form id="loginForm">
+                        <div class="login-input-wrapper">
+                            <input type="text" class="login-input" id="email" placeholder=" " required>
+                            <label class="login-label">Phone number, username or email</label>
+                        </div>
+
+                        <div class="login-input-wrapper">
+                            <input type="password" class="login-input" id="password" placeholder=" " required>
+                            <label class="login-label">Password</label>
+                            <button type="button" class="password-toggle" id="togglePassword">Show</button>
+                        </div>
+
+                        <button type="submit" class="login-btn" id="loginBtn">Log in</button>
+                    </form>
+
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <span class="divider-text">OR</span>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <a href="facebook-login.html" class="facebook-login">
+                        <svg viewBox="0 0 24 24" fill="#1877f2">
+                            <path
+                                d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+                        </svg>
+                        <span>Log in with Facebook</span>
+                    </a>
+
+                    <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <div class="signup-card">
+                    Don't have an account? <a href="signup.html" class="signup-link">Sign up</a>
+                </div>
+
+                <div class="app-download">
+                    <p>Get the app.</p>
+                    <div class="app-badges">
+                        <a href="https://apps.apple.com/app/instagram/id389801252">
+                            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020c87j0.png"
+                                alt="Download on App Store" class="app-badge">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.instagram.android">
+                            <img src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png"
+                                alt="Get it on Google Play" class="app-badge">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="login-footer">
+            <div class="footer-links">
+                <a href="#">Meta</a>
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Jobs</a>
+                <a href="#">Help</a>
+                <a href="#">API</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Locations</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">Threads</a>
+                <a href="#">Contact uploading & non-users</a>
+                <a href="#">Meta Verified</a>
+            </div>
+            <div class="footer-bottom">
+                <button class="language-select">
+                    English
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                </button>
+                <span>© 2025 Instagram from Meta</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const togglePassword = document.getElementById('togglePassword');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Check if already logged in
+        SupabaseAuth.redirectIfAuthenticated();
+
+        // Password visibility toggle
+        togglePassword.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.textContent = 'Show';
+            }
+        });
+
+        // Enable/disable login button
+        function checkInputs() {
+            const isValid = emailInput.value.length > 0 && passwordInput.value.length > 0;
+            loginBtn.disabled = !isValid;
+            loginBtn.style.opacity = isValid ? '1' : '0.7';
+        }
+
+        emailInput.addEventListener('input', checkInputs);
+        passwordInput.addEventListener('input', checkInputs);
+        checkInputs();
+
+        // Show error
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        // Hide error
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        // Handle login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span class="spinner"></span>';
+
+            const result = await SupabaseAuth.signIn(email, password);
+
+            if (result.success) {
+                window.location.href = 'index.html';
+            } else {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Log in';
+                showError(result.error || 'Invalid login credentials');
+            }
+        });
+    </script>
+</body>
+
+</html>

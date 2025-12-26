@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Instagram - Sign up to share photos with friends">
+    <title>Sign up • Instagram</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/y4/r/QaBlI0OZiks.ico" type="image/x-icon">
+    <style>
+        .signup-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--ig-bg-primary);
+        }
+
+        .signup-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+        }
+
+        .signup-container {
+            width: 350px;
+        }
+
+        .signup-card {
+            background-color: var(--ig-bg-primary);
+            border: 1px solid var(--ig-border);
+            border-radius: 4px;
+            padding: 40px 40px 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .instagram-logo {
+            height: 51px;
+            margin-bottom: 12px;
+        }
+
+        .signup-tagline {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ig-text-secondary);
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .facebook-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: var(--ig-primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        .facebook-btn:hover {
+            background-color: #1877f2;
+        }
+
+        .facebook-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 18px 0;
+            gap: 18px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background-color: var(--ig-border);
+        }
+
+        .divider-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ig-text-secondary);
+            text-transform: uppercase;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .signup-input {
+            width: 100%;
+            padding: 14px 12px 6px;
+            background-color: var(--ig-bg-secondary);
+            border: 1px solid var(--ig-border);
+            border-radius: 3px;
+            font-size: 12px;
+            color: var(--ig-text-primary);
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .signup-input:focus {
+            border-color: var(--ig-border-dark);
+        }
+
+        .input-label {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+            pointer-events: none;
+            transition: all 0.15s ease;
+        }
+
+        .signup-input:focus+.input-label,
+        .signup-input:not(:placeholder-shown)+.input-label {
+            top: 10px;
+            font-size: 10px;
+        }
+
+        .signup-input:focus,
+        .signup-input:not(:placeholder-shown) {
+            padding: 18px 12px 6px;
+        }
+
+        .terms-text {
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+            line-height: 1.5;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .terms-text a {
+            color: var(--ig-text-secondary);
+            font-weight: 600;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background-color: var(--ig-primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .signup-btn:hover:not(:disabled) {
+            background-color: #1877f2;
+        }
+
+        .signup-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .login-card {
+            background-color: var(--ig-bg-primary);
+            border: 1px solid var(--ig-border);
+            border-radius: 4px;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-link {
+            color: var(--ig-primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .app-download {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .app-download p {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .app-badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .app-badge {
+            height: 40px;
+        }
+
+        /* Footer */
+        .signup-footer {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 16px;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .footer-links a {
+            color: var(--ig-text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+        }
+
+        .language-select {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: var(--ig-text-secondary);
+            cursor: pointer;
+        }
+
+        /* Error message */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Success message */
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signup-page">
+        <main class="signup-main">
+            <div class="signup-container">
+                <div class="signup-card">
+                    <!-- Logo -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/800px-Instagram_logo.svg.png"
+                        alt="Instagram" class="instagram-logo">
+
+                    <!-- Tagline -->
+                    <p class="signup-tagline">Sign up to see photos and videos from your friends.</p>
+
+                    <!-- Facebook Button -->
+                    <button class="facebook-btn" id="facebookBtn">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+                        </svg>
+                        Log in with Facebook
+                    </button>
+
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <span class="divider-text">OR</span>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <div class="error-message" id="errorMessage"></div>
+                    <div class="success-message" id="successMessage"></div>
+
+                    <!-- Signup Form -->
+                    <form class="signup-form" id="signupForm">
+                        <div class="input-wrapper">
+                            <input type="email" class="signup-input" id="email" placeholder=" " required>
+                            <label class="input-label">Mobile Number or Email</label>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <input type="password" class="signup-input" id="password" placeholder=" " required
+                                minlength="6">
+                            <label class="input-label">Password</label>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <input type="text" class="signup-input" id="fullname" placeholder=" " required>
+                            <label class="input-label">Full Name</label>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <input type="text" class="signup-input" id="username" placeholder=" " required>
+                            <label class="input-label">Username</label>
+                        </div>
+
+                        <p class="terms-text">
+                            People who use our service may have uploaded your contact information to Instagram. <a
+                                href="#">Learn More</a>
+                        </p>
+                        <p class="terms-text">
+                            By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a
+                                href="#">Cookies Policy</a>.
+                        </p>
+
+                        <button type="submit" class="signup-btn" id="signupBtn">Sign up</button>
+                    </form>
+                </div>
+
+                <!-- Login Card -->
+                <div class="login-card">
+                    Have an account? <a href="login.html" class="login-link">Log in</a>
+                </div>
+
+                <!-- App Download -->
+                <div class="app-download">
+                    <p>Get the app.</p>
+                    <div class="app-badges">
+                        <a href="https://apps.apple.com/app/instagram/id389801252">
+                            <img src="https://static.cdninstagram.com/rsrc.php/v3/yt/r/Yfc020c87j0.png"
+                                alt="Download on App Store" class="app-badge">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.instagram.android">
+                            <img src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png"
+                                alt="Get it on Google Play" class="app-badge">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="signup-footer">
+            <div class="footer-links">
+                <a href="#">Meta</a>
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Jobs</a>
+                <a href="#">Help</a>
+                <a href="#">API</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Locations</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">Threads</a>
+                <a href="#">Contact uploading & non-users</a>
+                <a href="#">Meta Verified</a>
+            </div>
+            <div class="footer-bottom">
+                <button class="language-select">
+                    English
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                </button>
+                <span>© 2025 Instagram from Meta</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const fullnameInput = document.getElementById('fullname');
+        const usernameInput = document.getElementById('username');
+        const signupBtn = document.getElementById('signupBtn');
+        const facebookBtn = document.getElementById('facebookBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Check if already logged in
+        SupabaseAuth.redirectIfAuthenticated();
+
+        // Enable/disable signup button
+        function checkInputs() {
+            const allFilled = emailInput.value.length > 0 &&
+                passwordInput.value.length >= 6 &&
+                fullnameInput.value.length > 0 &&
+                usernameInput.value.length > 0;
+
+            signupBtn.disabled = !allFilled;
+            signupBtn.style.opacity = allFilled ? '1' : '0.7';
+        }
+
+        emailInput.addEventListener('input', checkInputs);
+        passwordInput.addEventListener('input', checkInputs);
+        fullnameInput.addEventListener('input', checkInputs);
+        usernameInput.addEventListener('input', checkInputs);
+        checkInputs();
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            successMessage.classList.remove('show');
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            errorMessage.classList.remove('show');
+        }
+
+        // Handle signup
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const fullName = fullnameInput.value.trim();
+            const username = usernameInput.value.trim().toLowerCase();
+
+            // Show loading
+            signupBtn.disabled = true;
+            signupBtn.innerHTML = '<span class="spinner"></span>';
+
+            const result = await SupabaseAuth.signUp(email, password, username, fullName);
+
+            if (result.success) {
+                showSuccess('Account created successfully! Redirecting...');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                signupBtn.disabled = false;
+                signupBtn.innerHTML = 'Sign up';
+                showError(result.error || 'Something went wrong. Please try again.');
+            }
+        });
+
+        // Facebook button (show message)
+        facebookBtn.addEventListener('click', () => {
+            showError('Facebook login coming soon!');
+        });
+    </script>
+</body>
+
+</html>
